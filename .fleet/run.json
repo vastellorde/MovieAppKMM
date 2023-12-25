@@ -1,0 +1,13 @@
+{
+    "configurations": [
+        
+        {
+            "name": "composeApp",
+            "type": "android-app",
+            "workingDir": "C:\\Users\\arman\\projects\\MovieApp",
+            "allowParallelRun": true,
+            "module": "MovieApp.composeApp.main",
+            "destination": "Pixel 7 API 30"
+        }
+    ]
+}
