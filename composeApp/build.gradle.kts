@@ -59,7 +59,12 @@ kotlin {
             implementation(libs.kamel.image)
             implementation(libs.paging.common)
             implementation(libs.paging.compose.common)
-
+            implementation(libs.voyager.navigator)
+            implementation(libs.voyager.screenModel)
+            implementation(libs.voyager.bottomSheetNavigator)
+            implementation(libs.voyager.tabNavigator)
+            implementation(libs.voyager.transitions)
+            implementation(libs.voyager.koin)
         }
     }
 }

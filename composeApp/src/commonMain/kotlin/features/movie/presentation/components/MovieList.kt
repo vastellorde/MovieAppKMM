@@ -1,8 +1,6 @@
-package features.movie.presentation
+package features.movie.presentation.components
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
@@ -13,12 +11,22 @@ import androidx.compose.ui.unit.dp
 import app.cash.paging.LoadStateError
 import app.cash.paging.LoadStateLoading
 import app.cash.paging.compose.collectAsLazyPagingItems
-import features.movie.presentation.components.MovieCard
+import cafe.adriel.voyager.koin.getNavigatorScreenModel
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
+import features.movie.presentation.state.MovieScreenModel
+import androidx.compose.runtime.LaunchedEffect
+import features.movie.presentation.state.MovieEvent
 
 
 @Composable
-fun MovieView(movieViewModel: MovieViewModel) {
-    val moviePagingItems = movieViewModel.state.collectAsLazyPagingItems()
+fun MovieList() {
+    val navigator = LocalNavigator.currentOrThrow
+    val screenModel = navigator.getNavigatorScreenModel<MovieScreenModel>()
+    LaunchedEffect(Unit) {
+        screenModel.onEvent(MovieEvent.GetMovieList)
+    }
+    val moviePagingItems = screenModel.state.collectAsLazyPagingItems()
     LazyColumn(
         modifier = Modifier.fillMaxSize().padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -30,7 +38,9 @@ fun MovieView(movieViewModel: MovieViewModel) {
         moviePagingItems.apply {
             when {
                 loadState.refresh is LoadStateLoading -> {
-                    item { CircularProgressIndicator() }
+                    item {
+                        LoadingMovieCard()
+                    }
                 }
 
                 loadState.refresh is LoadStateError -> {
