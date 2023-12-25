@@ -7,7 +7,7 @@ import features.movie.domain.repository.MovieRepository
 import io.ktor.utils.io.errors.*
 import kotlinx.coroutines.flow.Flow
 
-class MovieRepositoryImpl(private val api: MovieApi): MovieRepository() {
+class MovieRepositoryImpl(private val api: MovieApi) : MovieRepository() {
     override suspend fun getMovieList(): Flow<PagingData<MovieModel>> {
         return Pager(
             config = PagingConfig(pageSize = 20, prefetchDistance = 2),
@@ -18,7 +18,7 @@ class MovieRepositoryImpl(private val api: MovieApi): MovieRepository() {
     }
 }
 
-class MoviePagingSource(private val api: MovieApi): PagingSource<Int, MovieModel>() {
+class MoviePagingSource(private val api: MovieApi) : PagingSource<Int, MovieModel>() {
     override fun getRefreshKey(state: PagingState<Int, MovieModel>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             val anchorPage = state.closestPageToPosition(anchorPosition)

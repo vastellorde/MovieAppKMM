@@ -10,10 +10,10 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 
-class MovieViewModel(private val getMovieListUseCase: GetMovieListUseCase): ViewModel() {
+class MovieViewModel(private val getMovieListUseCase: GetMovieListUseCase) : ViewModel() {
     private val _state = MutableStateFlow<PagingData<MovieModel>>(value = PagingData.empty())
     var state = _state.asStateFlow()
-    
+
     fun onEvent(intent: MovieEvent) {
         viewModelScope.launch {
             when (intent) {
@@ -23,7 +23,7 @@ class MovieViewModel(private val getMovieListUseCase: GetMovieListUseCase): View
             }
         }
     }
-    
+
     private suspend fun getMovies() {
         getMovieListUseCase.invoke()
             .distinctUntilChanged()

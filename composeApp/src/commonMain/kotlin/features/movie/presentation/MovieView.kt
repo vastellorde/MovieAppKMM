@@ -19,33 +19,38 @@ import features.movie.presentation.components.MovieCard
 @Composable
 fun MovieView(movieViewModel: MovieViewModel) {
     val moviePagingItems = movieViewModel.state.collectAsLazyPagingItems()
-    LazyColumn(modifier = Modifier.fillMaxSize().padding(16.dp),
-               verticalArrangement = Arrangement.spacedBy(8.dp),
-               horizontalAlignment = Alignment.CenterHorizontally,) {
+    LazyColumn(
+        modifier = Modifier.fillMaxSize().padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
         items(moviePagingItems.itemCount) { index ->
             MovieCard(moviePagingItems[index]!!)
         }
-                   moviePagingItems.apply {
-                       when {
-                           loadState.refresh is LoadStateLoading -> {
-                               item { CircularProgressIndicator() }
-                           }
-                           loadState.refresh is LoadStateError -> {
-                               val error = moviePagingItems.loadState.refresh as LoadStateError
-                               item {
-                                   Text(error.error.message ?: "Some error")
-                               }
-                           }
-                           loadState.append is LoadStateLoading -> {
-                               item { CircularProgressIndicator() }
-                           }
-                           loadState.append is LoadStateError -> {
-                               val error = moviePagingItems.loadState.append as LoadStateError
-                               item {
-                                   Text(error.error.message ?: "Some error")
-                               }
-                           }
-                       }
-                   }
+        moviePagingItems.apply {
+            when {
+                loadState.refresh is LoadStateLoading -> {
+                    item { CircularProgressIndicator() }
+                }
+
+                loadState.refresh is LoadStateError -> {
+                    val error = moviePagingItems.loadState.refresh as LoadStateError
+                    item {
+                        Text(error.error.message ?: "Some error")
+                    }
+                }
+
+                loadState.append is LoadStateLoading -> {
+                    item { CircularProgressIndicator() }
+                }
+
+                loadState.append is LoadStateError -> {
+                    val error = moviePagingItems.loadState.append as LoadStateError
+                    item {
+                        Text(error.error.message ?: "Some error")
+                    }
+                }
+            }
+        }
     }
 }

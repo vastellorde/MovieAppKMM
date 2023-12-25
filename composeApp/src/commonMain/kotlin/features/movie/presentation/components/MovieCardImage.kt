@@ -12,5 +12,5 @@ fun MovieCardImage(imageUrl: String) {
         resource = painerResource,
         contentDescription = "Movie image",
         onLoading = { progress -> CircularProgressIndicator(progress) },
-        )
+    )
 }

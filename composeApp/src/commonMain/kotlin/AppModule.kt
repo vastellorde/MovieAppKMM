@@ -26,7 +26,10 @@ fun createHttpClient() =
         install(Auth) {
             bearer {
                 loadTokens {
-                    BearerTokens("eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMGQ0NzYzM2IzYjZkM2JlMjYyY2ExNTEyZDdmZGNmMSIsInN1YiI6IjY1ODZjZjgzNDc3MjE1NTlkMzQzNjYwMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.SmO0_j_xhVPDWtF1aiDyKJnwM0-IGzbuP0i_R4kV5HY", "")
+                    BearerTokens(
+                        "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMGQ0NzYzM2IzYjZkM2JlMjYyY2ExNTEyZDdmZGNmMSIsInN1YiI6IjY1ODZjZjgzNDc3MjE1NTlkMzQzNjYwMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.SmO0_j_xhVPDWtF1aiDyKJnwM0-IGzbuP0i_R4kV5HY",
+                        ""
+                    )
                 }
                 sendWithoutRequest { request ->
                     request.url.host.contains("themoviedb")

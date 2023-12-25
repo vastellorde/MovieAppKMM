@@ -29,9 +29,9 @@ fun App() {
             movieViewModel.onEvent(MovieEvent.GetMovieList)
         }
         MaterialTheme {
-            
+
             Scaffold(topBar = {
-                TopAppBar(title = {Text("MovieApp")})
+                TopAppBar(title = { Text("MovieApp") })
             }) {
                 MovieView(movieViewModel)
             }

@@ -17,8 +17,16 @@ fun MovieCard(movie: MovieModel) {
     Card {
         Column {
             MovieCardImage("https://image.tmdb.org/t/p/original${movie.backdropPath ?: movie.posterPath}")
-            Text(movie.originalTitle, style = MaterialTheme.typography.h5, modifier = Modifier.padding(horizontal = 16.dp))
-            Text(movie.overview, style = MaterialTheme.typography.body1, modifier = Modifier.padding(horizontal = 16.dp))
+            Text(
+                movie.originalTitle,
+                style = MaterialTheme.typography.h5,
+                modifier = Modifier.padding(horizontal = 16.dp)
+            )
+            Text(
+                movie.overview,
+                style = MaterialTheme.typography.body1,
+                modifier = Modifier.padding(horizontal = 16.dp)
+            )
             Spacer(modifier = Modifier.height(16.dp))
         }
     }
