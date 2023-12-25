@@ -33,7 +33,9 @@ fun MovieList() {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         items(moviePagingItems.itemCount) { index ->
-            MovieCard(moviePagingItems[index]!!)
+            moviePagingItems[index]?.let {
+                MovieCard(it)
+            }
         }
         moviePagingItems.apply {
             when {
