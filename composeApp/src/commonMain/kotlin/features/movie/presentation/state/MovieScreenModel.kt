@@ -24,7 +24,7 @@ class MovieScreenModel(private val getMovieListUseCase: GetMovieListUseCase) : S
     }
 
     private suspend fun getMovies() {
-        getMovieListUseCase.invoke()
+        getMovieListUseCase.invoke(Unit)
             .distinctUntilChanged()
             .cachedIn(screenModelScope)
             .collect {

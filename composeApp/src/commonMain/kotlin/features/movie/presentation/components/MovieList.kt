@@ -40,7 +40,7 @@ fun MovieList() {
         moviePagingItems.apply {
             when {
                 loadState.refresh is LoadStateLoading -> {
-                    item {
+                    items(3) {
                         LoadingMovieCard()
                     }
                 }
