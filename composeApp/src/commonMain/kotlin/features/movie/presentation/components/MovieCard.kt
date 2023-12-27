@@ -9,7 +9,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.LocalNavigator
@@ -46,28 +45,22 @@ fun MovieCard(movie: MovieModel) {
 
 @Composable
 fun LoadingMovieCard() {
+    val shimmerModifier = Modifier
+        .padding(horizontal = 16.dp)
+        .background(color = Color.LightGray, shape = RoundedCornerShape(8.dp))
+        .fillMaxWidth()
+        .shimmerLoadingAnimation()
+    val spacerModifier = Modifier.height(4.dp);
     Card {
         Column {
             LoadingCardImage()
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = spacerModifier)
             Box(
-                modifier = Modifier
-                    .clip(shape = RoundedCornerShape(8.dp))
-                    .padding(horizontal = 16.dp)
-                    .background(color = Color.LightGray)
-                    .fillMaxWidth()
-                    .height(30.dp)
-                    .shimmerLoadingAnimation()
+                modifier = shimmerModifier.height(30.dp)
             )
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = spacerModifier)
             Box(
-                modifier = Modifier
-                    .clip(shape = RoundedCornerShape(8.dp))
-                    .padding(horizontal = 16.dp)
-                    .background(color = Color.LightGray)
-                    .fillMaxWidth()
-                    .height(90.dp)
-                    .shimmerLoadingAnimation()
+                modifier = shimmerModifier.height(90.dp)
             )
             Spacer(modifier = Modifier.height(16.dp))
         }

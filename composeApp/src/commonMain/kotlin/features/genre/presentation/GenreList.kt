@@ -1,7 +1,6 @@
 package features.genre.presentation
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
@@ -25,7 +24,6 @@ import features.genre.presentation.state.GenreEvent
 import features.genre.presentation.state.GenreScreenModel
 import features.home.presentation.state.HomeEvent
 import features.home.presentation.state.HomeScreenModel
-import features.movie.presentation.state.MovieScreenModel
 
 
 @Composable
@@ -48,13 +46,11 @@ fun GenreList(genreList: List<GenreModel>) {
             items(8) {
                 Box(
                     Modifier
-                        .background(color = Color.LightGray)
-                        .size(width = 60.dp, height = 32.dp)
-                        .border(
-                            shape = MaterialTheme.shapes.small.copy(CornerSize(percent = 50)),
-                            width = 0.dp,
-                            color = Color.LightGray
+                        .background(
+                            color = Color.LightGray,
+                            shape = MaterialTheme.shapes.small.copy(CornerSize(percent = 50))
                         )
+                        .size(width = 60.dp, height = 32.dp)
                         .shimmerLoadingAnimation()
                 )
             }
@@ -78,7 +74,6 @@ fun GenreItem(model: GenreModel) {
             state.selectedGenres == model.id
         }
     }
-    val scope = rememberCoroutineScope()
     FilterChip(
         onClick = {
             screenModel.onEvent(HomeEvent.SelectGenre(model.id))
