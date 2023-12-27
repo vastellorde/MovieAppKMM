@@ -10,7 +10,7 @@ import org.koin.dsl.module
 
 fun genreModule() = module {
     factory { GenreScreenModel(get()) }
-    single { GetGenreListUseCase(get()) }
+    single<GetGenreListUseCase> { GetGenreListUseCase(get<GenreRepository>()::getGenreList) }
     single<GenreRepository> { GenreRepositoryImpl(get()) }
     single<GenreApi> { GenreApiImpl(get()) }
 }

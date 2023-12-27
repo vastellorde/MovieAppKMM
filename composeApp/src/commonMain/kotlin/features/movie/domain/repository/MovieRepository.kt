@@ -5,5 +5,5 @@ import features.movie.data.model.MovieModel
 import kotlinx.coroutines.flow.Flow
 
 abstract class MovieRepository {
-    abstract suspend fun getMovieList(): Flow<PagingData<MovieModel>>
+    abstract suspend fun getMovieList(params: Int?): Flow<PagingData<MovieModel>>
 }

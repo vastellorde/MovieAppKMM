@@ -11,9 +11,12 @@ abstract class GenreApi {
 
 class GenreApiImpl(private val httpClient: HttpClient) : GenreApi() {
     override suspend fun getGenreList(): GenreResponse {
-        val url = "genre/movie/list?language=en"
         return httpClient
-            .get(url)
+            .get("genre/movie/list") {
+                url {
+                    parameters.append("language", "en")
+                }
+            }
             .body()
     }
 }

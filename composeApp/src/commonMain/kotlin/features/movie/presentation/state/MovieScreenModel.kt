@@ -17,14 +17,14 @@ class MovieScreenModel(private val getMovieListUseCase: GetMovieListUseCase) : S
         screenModelScope.launch {
             when (event) {
                 is MovieEvent.GetMovieList -> {
-                    getMovies()
+                    getMovies(event.genreId)
                 }
             }
         }
     }
 
-    private suspend fun getMovies() {
-        getMovieListUseCase.invoke(Unit)
+    private suspend fun getMovies(genreId: Int?) {
+        getMovieListUseCase(genreId)
             .distinctUntilChanged()
             .cachedIn(screenModelScope)
             .collect {

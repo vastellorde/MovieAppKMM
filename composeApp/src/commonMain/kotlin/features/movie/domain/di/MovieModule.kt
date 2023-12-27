@@ -10,7 +10,7 @@ import org.koin.dsl.module
 
 fun movieModule() = module {
     factory { MovieScreenModel(get()) }
-    single { GetMovieListUseCase(get()) }
+    single<GetMovieListUseCase> { GetMovieListUseCase(get<MovieRepository>()::getMovieList) }
     single<MovieRepository> { MovieRepositoryImpl(get()) }
     single<MovieApi> { MovieApiImpl(get()) }
 }

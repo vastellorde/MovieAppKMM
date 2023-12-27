@@ -19,7 +19,7 @@ class GenreScreenModel(private val getGenreListUseCase: GetGenreListUseCase) :
     }
     
     private suspend fun getGenres() {
-        getGenreListUseCase.invoke(Unit)
+        getGenreListUseCase(Unit)
             .collect {
                 mutableState.value = it
             }

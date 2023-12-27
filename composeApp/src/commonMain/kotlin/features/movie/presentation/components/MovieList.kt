@@ -16,6 +16,9 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import features.movie.presentation.state.MovieScreenModel
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import features.home.presentation.state.HomeScreenModel
 import features.movie.presentation.state.MovieEvent
 
 
@@ -23,8 +26,10 @@ import features.movie.presentation.state.MovieEvent
 fun MovieList() {
     val navigator = LocalNavigator.currentOrThrow
     val screenModel = navigator.getNavigatorScreenModel<MovieScreenModel>()
-    LaunchedEffect(Unit) {
-        screenModel.onEvent(MovieEvent.GetMovieList)
+    val homeScreenModel = navigator.getNavigatorScreenModel<HomeScreenModel>()
+    val homeState by homeScreenModel.state.collectAsState()
+    LaunchedEffect(homeState.selectedGenres) {
+        screenModel.onEvent(MovieEvent.GetMovieList(homeState.selectedGenres))
     }
     val moviePagingItems = screenModel.state.collectAsLazyPagingItems()
     LazyColumn(

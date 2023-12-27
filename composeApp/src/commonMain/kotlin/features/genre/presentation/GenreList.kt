@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -22,9 +23,9 @@ import core.extensions.shimmerLoadingAnimation
 import features.genre.data.model.GenreModel
 import features.genre.presentation.state.GenreEvent
 import features.genre.presentation.state.GenreScreenModel
-import features.movie.presentation.state.MovieEvent
+import features.home.presentation.state.HomeEvent
+import features.home.presentation.state.HomeScreenModel
 import features.movie.presentation.state.MovieScreenModel
-import kotlinx.coroutines.launch
 
 
 @Composable
@@ -40,14 +41,9 @@ fun GenreList() {
     GenreList(state)
 }
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun GenreList(genreList: List<GenreModel>) {
-    val navigator = LocalNavigator.currentOrThrow
-    val screenModel = navigator.getNavigatorScreenModel<MovieScreenModel>()
-    var selectedId: Int? by remember { mutableStateOf(null) }
-    val scope = rememberCoroutineScope()
-    LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+    LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.padding(horizontal = 16.dp)) {
         if (genreList.isEmpty()) {
             items(8) {
                 Box(
@@ -64,29 +60,41 @@ fun GenreList(genreList: List<GenreModel>) {
             }
         } else {
             items(items = genreList, key = { genre -> genre.id }) {
-                FilterChip(
-                    onClick = {
-                        selectedId = it.id
-                        scope.launch {
-                            screenModel.onEvent(MovieEvent.GetMovieList)
-                        }
-                    },
-                    selected = selectedId == it.id,
-                    leadingIcon = if (selectedId == it.id) {
-                        {
-                            Icon(
-                                imageVector = Icons.Filled.Done,
-                                contentDescription = "Done icon",
-                            )
-                        }
-                    } else {
-                        null
-                    },
-                ) {
-                    Text(it.name)
-                }
+                GenreItem(it)
             }
         }
 
+    }
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun GenreItem(model: GenreModel) {
+    val navigator = LocalNavigator.currentOrThrow
+    val screenModel = navigator.getNavigatorScreenModel<HomeScreenModel>()
+    val state by screenModel.state.collectAsState()
+    val selected by remember {
+        derivedStateOf {
+            state.selectedGenres == model.id
+        }
+    }
+    val scope = rememberCoroutineScope()
+    FilterChip(
+        onClick = {
+            screenModel.onEvent(HomeEvent.SelectGenre(model.id))
+        },
+        selected = selected,
+        leadingIcon = if (selected) {
+            {
+                Icon(
+                    imageVector = Icons.Filled.Done,
+                    contentDescription = "Done icon",
+                )
+            }
+        } else {
+            null
+        },
+    ) {
+        Text(model.name)
     }
 }

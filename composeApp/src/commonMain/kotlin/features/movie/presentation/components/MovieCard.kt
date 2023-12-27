@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -11,12 +12,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import core.extensions.shimmerLoadingAnimation
 import features.movie.data.model.MovieModel
+import features.movieDetail.presentation.MovieDetailScreen
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun MovieCard(movie: MovieModel) {
-    Card {
+    val navigator = LocalNavigator.currentOrThrow
+    Card(
+        onClick = {
+            navigator.push(MovieDetailScreen(movie.id.toString()))
+        }
+    ) {
         Column {
             MovieCardImage("https://image.tmdb.org/t/p/original${movie.backdropPath ?: movie.posterPath}")
             Text(

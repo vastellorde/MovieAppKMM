@@ -7,15 +7,24 @@ import io.ktor.client.call.*
 import io.ktor.client.request.*
 
 abstract class MovieApi {
-    abstract suspend fun getMovieList(page: Int): PaginatedResponse<List<MovieModel>>
+    abstract suspend fun getMovieList(page: Int, genreId: Int?): PaginatedResponse<List<MovieModel>>
 }
 
 class MovieApiImpl(private val httpClient: HttpClient) : MovieApi() {
-    override suspend fun getMovieList(page: Int): PaginatedResponse<List<MovieModel>> {
-        val url =
-            "discover/movie?include_adult=false&include_video=false&language=en-US&page=$page&sort_by=popularity.desc"
+    override suspend fun getMovieList(page: Int, genreId: Int?): PaginatedResponse<List<MovieModel>> {
         val response = httpClient
-            .get(url)
+            .get("discover/movie") {
+                url {
+                    parameters.append("include_adult", "false")
+                    parameters.append("include_video", "false")
+                    parameters.append("language", "en-US")
+                    parameters.append("page", page.toString())
+                    parameters.append("sort_by", "popularity.desc")
+                    if (genreId != null) {
+                        parameters.append("with_genres", genreId.toString())
+                    }
+                }
+            }
         return response.body()
     }
 }
